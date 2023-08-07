@@ -2,60 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pelanggan;
+use App\models\Pelanggan;
 use Illuminate\Http\Request;
 
 class PelangganController extends Controller
 {
+    public function buat(){
+        return view ('pelanggan.isi');
+    }
+    public function index(Request $request)
+    {
+        $q = $request->get('q');
+
+        $data['result'] = Pelanggan::where(function($query) use ($q){
+            $query->Where('nama_lengkap', 'like', '%' . $q . '%');
+            $query->orWhere('jenis_kelamin', 'like', '%' . $q . '%');
+            $query->Where('nomor_hp', 'like', '%' . $q . '%');
+            $query->Where('alamat', 'like', '%' . $q . '%');
+            $query->Where('email', 'like', '%' . $q . '%');
+    })->paginate();
+
+    $data['q'] = $q;
+    return view('pelanggan.list1', $data);
+}
 public function create()
 {
     return view('pelanggan.form1');
 }
-
-public function store(Request $request, Pelanggan $pelanggan = null)
+public function show()
 {
-    
-    $rules = [
-        'nomor' => 'required',
-        'uraian' => 'required',
-        'kode' => 'required',
-        'satuan' => 'required',
-        'koefisien' => 'required',
-        'harga' => 'required',
-        'jumlah_harga' => 'required'
-    ];
+    return view('pelanggan.show1');
+}
 
+public function store(Request $request, Pelanggan $pelanggan = null){
+
+    $rules = [
+        'nama_lengkap' => 'required',
+        'jenis_kelamin' => 'required',
+        'nomor_hp' => 'required',
+        'alamat' => 'required',
+        'email' => 'required'
+    ];
     $this->validate($request, $rules);
 
-    $input = $request->all();
-    
-    Pelanggan::updateOrcreate(['id'=> @$pelanggan->id], $input);
-    return redirect('/pelanggan')->with('success', 'Data Berhasil Disimpan');
-}
-    
-public function index(Request $request){
-    $q = $request->get('q');
+    Pelanggan::updateOrCreate(['id' => @$pelanggan->id], $request->all());
 
-    $data['result'] = Pelanggan::where(function($query) use ($q){
-        $query->where('nomor', 'like', '%' . $q . '%');
-        $query->where('uraian', 'like', '%' . $q . '%');
-        $query->where('kode', 'like', '%' . $q . '%');
-        $query->where('satuan', 'like', '%' . $q . '%');
-        $query->where('koefisien', 'like', '%' . $q . '%');
-        $query->where('harga', 'like', '%' . $q . '%');
-        $query->where('jumlah_harga', 'like', '%' . $q . '%');
-    })->paginate();
-
-    $data['q'] = $q;
-    return view('pelanggan.list1',$data);
-    }
-
-public function edit(Pelanggan $pelanggan){
-return view('pelanggan.form1', compact('pelanggan'));
+    return redirect('/pelanggan')->with('success', 'DATA BERHASIL DI SIMPAN!!');
 }
 
-public function destroy(Pelanggan $pelanggan){
-$pelanggan->delete();
-return redirect('/pelanggan')->with('success', 'Data Berhasil Dihapus');
+public function edit(Pelanggan $pelanggan)
+{
+    return view('pelanggan.form1', compact('pelanggan'));
+}
+
+public function destroy(Pelanggan $pelanggan)
+{
+    $pelanggan->delete();
+    return redirect('/pelanggan')->with('succes', 'DATA BERHASIL DIHAPUS');
 }
 }

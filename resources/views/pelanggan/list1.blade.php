@@ -11,79 +11,77 @@
 <body>
 
 <main style="margin-top: 70px">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('succes') }}
+                </div> 
+            @endif   
     <div class="container">
         <div class="row">
-            @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success')}}
-            </div>
-            @endif
             <div class="col-lg-4 mb-2">
-            <form action="" method="GET" role="search">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="q" placeholder="Cari" value="{{ @$q }}">
-                </div>
-            </form>
-            </div>
-                    <div class="col-lg-8 text-end mb-2">
-                    <a href="{{ url('pelanggan/create') }}" class="btn btn-primary">Tambah</a>
+                <form action="" method="GET" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="q" placeholder="Cari" value="{{ @$q }}">
                     </div>
+                </form>
+            </div>
+            
+                <div class="col-lg-8 text-end mb-2">
+                    <a href="{{ url('pelanggan/create')}}" class="btn btn-primary">Tambah</a>
+                </div> 
             <div class="col-lg-12">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Nomor</th>
-                        <th>Uraian</th>
-                        <th>Kode</th>
-                        <th>Satuan</th>
-                        <th>Koefisien</th>
-                        <th>Harga</th>
-                        <th>Jumlah Harga</th>
+                        <th>No</th>
+                        <th>Nama Lengkap</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Nomor HP</th>
+                        <th>Alamat</th>
+                        <th>Email</th>
+                        <th>Aksi</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                        @foreach($result as $item)
-                    <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>
-                    <td>{{ $item->nomor }}</td>
-                    <td>{{ $item->uraian }}</td>
-                    <td>{{ $item->kode }}</td>
-                    <td>{{ $item->satuan }}</td>
-                    <td>{{ $item->koefisien }}</td>
-                    <td>Rp{{ $item->harga }}</td>
-                    <td>Rp{{ $item->jumlah_harga }}</td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" href="{{ route('pelanggan.edit', $item->id) }}">Edit</a>
-                        <form action="{{ route('pelanggan.destroy', $item->id) }}" method="POST" class="d-inline formDelete" >
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm" type="submit">Hapus</button>
-                        </form>
-                    </td>
-                    </tr>
+                    @foreach($result as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->nama_lengkap }}</td>
+                            <td>{{ $item->jenis_kelamin }}</td>
+                            <td>{{ $item->nomor_hp}}</td>
+                            <td>{{ $item->alamat }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>
+                                <a class= "btn btn-warning btn-sm" href="{{ route('pelanggan.edit', $item->id) }}">Edit</a>
+                                <form action="{{ route('pelanggan.destroy', $item->id) }}" method="POST" class="d-inline formDelete">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-sm" type="submit">Hapus</button>
+                                </form>    
+                            </td>
+                        </tr>
                     @endforeach
-                    </tbody>
+                     </tbody>
                 </table>
-                {!! $result->withQueryString()->links('pagination::bootstrap-5')!!}
+
+                {!! $result->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
         </div>
     </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11s"></script>
+</body>
 <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-                $(() => {
-                $("body").on("click", ".formDelete", (el) => {
-                el.preventDefault();
-                Swal.fire({
-                title: 'Perhatian',
+    $(() => {
+        $("body").on("click", ".formDelete", (el) =>{
+            el.preventDefault();
 
+            Swal.fire({
+                title: 'Perhatian',
                 text: "Apakah anda yakin ingin menghapus data ini?",
                 icon: 'warning',
                 showCancelButton: true,
@@ -91,11 +89,10 @@
                 cancelButtonColor: '#3085d6',
                 confirmButtonText: 'Ya',
                 cancelButtonText: 'Tidak'
-                }).then((result) => {
+            }).then((result) =>{
                 if(result.isConfirmed) $(el.currentTarget).submit();
-                })
-                })
-                })
+            })
+        })
+    })
 </script>
-</body>
-</html
+</html>

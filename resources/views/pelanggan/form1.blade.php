@@ -13,65 +13,61 @@
 <main style="margin-top: 70px">
     <div class="container">
         @if (count($errors)>0)
-        <div class ="allert alert-danger">
-            <b>Perhatian</b>
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+            <div class="alert alert-danger">
+                <b>Perhatian</b>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
         <div class="row">
             <div class="col-lg-12">
                 <form action="{{url('pelanggan/create', @$pelanggan->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3 row">
-                        <label for="nomor" class="col-sm-2 col-form-label">Nomor</label>
+                @csrf   
+                <div class="mb-3 row">
+                        <label for="nama_lengkap" class="col-sm-2 col-form-label">Nama Lengkap</label>
                         <div class="col-sm-5">
-                            <input value="{{ old('nomor', @$pelanggan->nomor) }}" type="text" class="form-control" name="nomor" id="nomor" placeholder="nomor">
+                            <input value="{{ old('nama_lengkap', @$pelanggan->nama_lengkap) }}" type="text" class="form-control"
+                            name="nama_lengkap" id="nama_lengkap" placeholder="Nama Lengkap">
+                        </div>
+                    </div>
+
+                <div class="mb-3 row">
+                        <label for="jenis_kelamin" class="col-sm-2 col-form-label">Jenis Kelamin</label>
+                        <div class="col-sm-5">
+                            <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+                               <option @selected(old('jenis_kelamin', @$pelanggan->jenis_kelamin) == '') value="">
+                                 - Pilih Jenis Kelamin -
+                               </option>
+                               <option @selected(old('jenis_kelamin', @$pelanggan->jenis_kelamin) == 'Pria') value="Pria">Pria</option>
+                               <option @selected(old('jenis_kelamin', @$pelanggan->jenis_kelamin) == 'Wanita') value="Wanita">Wanita</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="uraian" class="col-sm-2 col-form-label">Uraian</label>
+                        <label for="nomor_hp" class="col-sm-2 col-form-label">Nomor Hp</label>
                         <div class="col-sm-5">
-                            <input value="{{ old('uraian', @$pelanggan->uraian) }}" type="text" class="form-control" name="uraian" id="uraian" placeholder="Uraian">
+                            <input value="{{ old('nomor_hp', @$pelanggan->nomor_hp) }}" type="text" class="form-control"
+                            name="nomor_hp" id="nomor_hp" placeholder="Nomor Hp">
                         </div>
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="kode" class="col-sm-2 col-form-label">kode</label>
+                        <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                         <div class="col-sm-5">
-                            <input value="{{ old('kode', @$pelanggan->kode) }}" type="text" class="form-control" name="kode" id="kode" placeholder="Kode">
+                            <input value="{{ old('alamat', @$pelanggan->alamat) }}" type="text" class="form-control"
+                            name="alamat" id="alamat" placeholder="Alamat">
                         </div>
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="satuan" class="col-sm-2 col-form-label">Satuan</label>
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-5">
-                            <input value="{{ old('satuan', @$pelanggan->satuan) }}" type="text" class="form-control" name="satuan" id="satuan" placeholder="Satuan">
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="koefisien" class="col-sm-2 col-form-label">koefisien</label>
-                        <div class="col-sm-5">
-                            <input value="{{ old('koefisien', @$pelanggan->koefisien) }}" type="text" class="form-control" name="koefisien" id="koefisien" placeholder="koefisien">
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="harga" class="col-sm-2 col-form-label">Harga</label>
-                        <div class="col-sm-5">
-                            <input value="{{ old('harga', @$pelanggan->harga) }}" type="text" class="form-control" name="harga" id="harga" placeholder="Harga">
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="jumlah_harga" class="col-sm-2 col-form-label">Jumlah Harga</label>
-                        <div class="col-sm-5">
-                            <input value="{{ old('jumlah_harga', @$pelanggan->jumlah_harga) }}" type="text" class="form-control" name="jumlah_harga" id="jumlah_harga" placeholder="Jumlah_Harga">
+                            <input value="{{ old('email', @$pelanggan->email) }}" type="text" class="form-control"
+                            name="email" id="email" placeholder="Email">
                         </div>
                     </div>
 
