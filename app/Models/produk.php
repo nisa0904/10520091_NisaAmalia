@@ -21,8 +21,8 @@ class produk extends Model
 
     public function getFotoProdukAttributes()
     {
-        $foto_produk - $this->attributes['foto_produk'];
-        if (empty($foto_produk)) return 'https://via.placeholder.com/100?text-produk';
+        $foto_produk = $this->attributes['foto_produk'];
+        if (empty($foto_produk)) return 'https://via.placeholder.com/100?text=produk';
             else return Storage::url('produk/' . $foto_produk);
     }
 }
